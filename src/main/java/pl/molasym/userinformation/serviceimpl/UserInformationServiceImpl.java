@@ -44,9 +44,9 @@ public class UserInformationServiceImpl implements UserInformationService {
 		}
 	}
 
-	public void updateUserById(long id, User user) throws UserNotFoundException {
+	public void updateUserById(User old, User newUser) throws UserNotFoundException {
 		try {
-			userRepository.updateUserById(id, user);
+			userRepository.updateUserById(old, newUser);
 		} catch (UserNotFoundException e) {
 			throw e;
 		}

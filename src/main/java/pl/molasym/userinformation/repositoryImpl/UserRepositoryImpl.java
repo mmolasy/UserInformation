@@ -17,6 +17,7 @@ import pl.molasym.userinformation.repository.UserRepository;
 import pl.molasym.userinformation.sql.UserInformationSQL;
 
 @Repository
+@Transactional
 public class UserRepositoryImpl implements UserRepository {
 
 	SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
@@ -70,21 +71,28 @@ public class UserRepositoryImpl implements UserRepository {
 
 	
 
-	public void updateUserById(long id, User user) throws UserNotFoundException {
+	public void updateUserById(User old, User newUser) throws UserNotFoundException {
 
-		User userFromDb;
+
 		Session session = sessionFactory.openSession();
 		session.getTransaction().begin();	
 		
-		userFromDb = (User) session.get(User.class, id);
+		User userFromDb = (User) session.get(User.class, old.getUserId());
 		
 		if(userFromDb == null)
 			throw new UserNotFoundException();
-		
-		userFromDb = user;
-		userFromDb.setUserId(user.getUserId());
-		
-		session.update(userFromDb);
+
+		old.setEmailAddress(newUser.getEmailAddress());
+		old.setFirstName(newUser.getFirstName());
+		old.setBirthDate(newUser.getBirthDate());
+		old.setAccounts(newUser.getAccounts());
+		old.setAge(newUser.getAge());
+		old.setCreatedDate(newUser.getCreatedDate());
+		old.setValid(newUser.isValid());
+		old.setLastName(newUser.getLastName());
+		old.setAddresses(newUser.getAddresses());
+
+		session.merge(old);
 		
 		session.getTransaction().commit();
 		session.close();		

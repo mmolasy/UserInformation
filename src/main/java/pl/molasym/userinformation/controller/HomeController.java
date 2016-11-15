@@ -70,7 +70,7 @@ public class HomeController {
 	public ModelAndView updateUserById(@PathVariable String id, @RequestBody User user, HttpServletResponse response) {
 
 		try {
-			userInformationService.updateUserById(Long.valueOf(id).longValue(), user);
+			userInformationService.updateUserById(userInformationService.getUserById(Long.valueOf(id)), user);
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

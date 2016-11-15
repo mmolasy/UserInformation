@@ -10,7 +10,7 @@ public interface UserInformationService {
 	public User getUserById (long id) throws UserNotFoundException;
 	public List<User> getAllUsers();
 	public User getUserByAccountId(long id) throws UserNotFoundException;
-	public void updateUserById(long id, User user) throws UserNotFoundException;
+	public void updateUserById(User old, User newUser) throws UserNotFoundException;
 	public void addNewUser(User user);
 	public void removeUser(long id) throws UserNotFoundException;
 	
